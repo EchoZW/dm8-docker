@@ -23,6 +23,7 @@ OTHER_PARAMS=${OTHER_PARAMS:-""}
 SYSDBA_PWD=${SYSDBA_PWD:-""}
 SYSAUDITOR_PWD=${SYSAUDITOR_PWD:-""}
 
+# 初始化函数
 function init_db() {
     if [ -z "$SYSDBA_PWD" ]; then
         echo "SYSDBA_PWD is empty, please set it in environment variables"
@@ -54,6 +55,8 @@ function init_db() {
     sudo -u dmdba /home/dmdba/dmdb/bin/dminit $INIT_PARAMS
     echo "Database initialized"
 }
+
+# 启动数据库函数
 function start_dmap() {
     echo "Starting DmAPService..."
     sudo -u dmdba /home/dmdba/dmdb/bin/dmap dmap_ini=/home/dmdba/dmdb/bin/dmap.ini &
@@ -67,6 +70,7 @@ function modify_db_permissions() {
     echo "$DB_PATH permissions modified"
 }
 
+# 检查是否初始化
 function check_initialized() {
     # 判断 $DB_PATH/$DB_NAME/dm.ini 是否存在
     if [ -f "$DB_PATH/$DB_NAME/dm.ini" ]; then
